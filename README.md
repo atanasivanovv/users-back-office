@@ -3,8 +3,7 @@
 ### Requirements
 Create a basic web application using the following technology stack:
 
-Technology - React with Typescript (https://create-react-
-app.dev/docs/addingtypescript/)
+Technology - React with Typescript (https://create-react-app.dev/docs/addingtypescript/)
 
 State management - Redux and redux-toolkit
 (https://reduxtoolkit.js.org/introduction/getting-started)
