@@ -6,7 +6,7 @@ import UserCard from "./UserCard";
 
 const UsersList = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { users, status, error } = useSelector(
+  const { users, status, error, updateStatus } = useSelector(
     (state: RootState) => state.users,
   );
 
@@ -26,7 +26,11 @@ const UsersList = () => {
   return (
     <div className="grid gap-4 grid-cols-1">
       {users.map((user) => (
-        <UserCard key={user.id} user={user} />
+        <UserCard
+          key={user.id}
+          user={user}
+          isSubmitting={updateStatus === "loading"}
+        />
       ))}
     </div>
   );
