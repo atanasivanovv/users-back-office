@@ -1,14 +1,12 @@
-import React from "react";
-import "./App.css";
+import { BrowserRouter as Router, Routes } from "react-router-dom";
+import { Layout } from "./components/layout";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p className="text-cyan-100">Atanas&apos; Users Back Office</p>
-      </header>
-    </div>
-  );
-}
+const App = () => (
+  <Router>
+    <Layout>
+      <Routes></Routes>
+    </Layout>
+  </Router>
+);
 
 export default App;
