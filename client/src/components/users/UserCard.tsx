@@ -6,10 +6,9 @@ import UserForm from "./UserForm";
 
 interface UserCardProps {
   user: User;
-  isSubmitting: boolean;
 }
 
-const UserCard: React.FC<UserCardProps> = ({ user, isSubmitting }) => {
+const UserCard: React.FC<UserCardProps> = ({ user }) => {
   const [expanded, setExpanded] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -89,11 +88,7 @@ const UserCard: React.FC<UserCardProps> = ({ user, isSubmitting }) => {
     return (
       <div className="bg-white shadow-md rounded-lg p-4">
         {headerContent}
-        <UserForm
-          user={user}
-          onCancel={handleCancel}
-          isSubmitting={isSubmitting}
-        />
+        <UserForm user={user} onCancel={handleCancel} />
       </div>
     );
   }
