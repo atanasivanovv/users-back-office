@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "antd";
@@ -9,6 +9,7 @@ import { updateUser } from "../../store/usersSlice";
 
 import { User } from "../../types";
 import { AppDispatch, RootState } from "../../store";
+import { Error } from "../error/Error";
 
 type UserFormData = Pick<User, "username" | "email" | "address">;
 
@@ -28,11 +29,16 @@ interface UserFormProps {
   onCancel: () => void;
 }
 
-const UserForm: React.FC<UserFormProps> = ({ user, onCancel }) => {
+const UserForm: FC<UserFormProps> = ({ user, onCancel }) => {
   const dispatch = useDispatch<AppDispatch>();
   const updateStatus = useSelector(
     (state: RootState) => state.users.updateStatus,
   );
+  const updateError = useSelector(
+    (state: RootState) => state.users.updateError,
+  );
+
+  console.log(updateError);
 
   const {
     register,
@@ -152,18 +158,23 @@ const UserForm: React.FC<UserFormProps> = ({ user, onCancel }) => {
         </div>
       </div>
 
-      <div className="flex justify-end gap-2 mt-4">
-        <Button onClick={onCancel} size="large">
-          Cancel
-        </Button>
-        <Button
-          type="primary"
-          size="large"
-          htmlType="submit"
-          loading={updateStatus === "loading"}
-        >
-          Save
-        </Button>
+      <div className="flex justify-between items-center pt-2">
+        <div className="justify-start">
+          <Error message={updateError} />
+        </div>
+        <div className="flex justify-end gap-2">
+          <Button onClick={onCancel} size="large">
+            Cancel
+          </Button>
+          <Button
+            type="primary"
+            size="large"
+            htmlType="submit"
+            loading={updateStatus === "loading"}
+          >
+            Save
+          </Button>
+        </div>
       </div>
     </form>
   );

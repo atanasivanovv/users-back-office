@@ -14,6 +14,7 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
 
   const toggleExpanded = () => {
     setExpanded((prev) => !prev);
+    setIsEditing(false);
   };
 
   const handleCancel = () => {
@@ -41,26 +42,26 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
   const detailsContent = useMemo(
     () => (
       <div className="p-4 mt-2">
-        <div className="grid grid-cols-3 gap-1">
-          <p className="mb-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
+          <p className="mb-1 min-h-8">
             <strong>Username:</strong> {user.username}
           </p>
-          <p className="mb-1">
+          <p className="mb-1 min-h-8">
             <strong>Email:</strong> {user.email}
           </p>
-          <p className="mb-1">
+          <p className="mb-1 min-h-8">
             <strong>Phone:</strong> {user.phone}
           </p>
-          <p className="mb-1">
+          <p className="mb-1 min-h-8">
             <strong>Website:</strong> {user.website}
           </p>
-          <p className="mb-1">
+          <p className="mb-1 min-h-8">
             <strong>Company:</strong> {user.company.name}
           </p>
-          <p className="mb-1">
+          <p className="mb-1 min-h-8">
             <strong>Catch Phrase:</strong> {user.company.catchPhrase}
           </p>
-          <p className="mb-1">
+          <p className="mb-1 min-h-8">
             <strong>BS:</strong> {user.company.bs}
           </p>
           <p className="mb-2">
@@ -84,7 +85,7 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
     [user],
   );
 
-  if (isEditing) {
+  if (isEditing && expanded) {
     return (
       <div className="bg-white shadow-md rounded-lg p-4">
         {headerContent}
