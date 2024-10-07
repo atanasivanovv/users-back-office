@@ -17,6 +17,10 @@ const UserCard: React.FC<UserCardProps> = ({ user, isSubmitting }) => {
     setExpanded((prev) => !prev);
   };
 
+  const handleCancel = () => {
+    setIsEditing(false);
+  };
+
   const headerContent = useMemo(
     () => (
       <div className="flex justify-between">
@@ -78,14 +82,7 @@ const UserCard: React.FC<UserCardProps> = ({ user, isSubmitting }) => {
         </div>
       </div>
     ),
-    [
-      user.address.city,
-      user.address.street,
-      user.address.suite,
-      user.email,
-      user.id,
-      user.username,
-    ],
+    [user],
   );
 
   if (isEditing) {
@@ -94,7 +91,7 @@ const UserCard: React.FC<UserCardProps> = ({ user, isSubmitting }) => {
         {headerContent}
         <UserForm
           user={user}
-          onCancel={() => setIsEditing(false)}
+          onCancel={handleCancel}
           isSubmitting={isSubmitting}
         />
       </div>

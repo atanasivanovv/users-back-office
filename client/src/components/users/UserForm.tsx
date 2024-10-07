@@ -1,4 +1,4 @@
-import { FC, useState, ChangeEvent, FormEvent } from "react";
+import { FC, useState, ChangeEvent, FormEvent, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { Button } from "antd";
 import { updateUser } from "../../store/usersSlice";
@@ -13,35 +13,31 @@ interface UserFormProps {
 
 const UserForm: FC<UserFormProps> = ({ user, onCancel, isSubmitting }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const [formData, setFormData] = useState<User>(user); // Ensure correct typing
+  const [formData, setFormData] = useState<User>(user);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+      address:
+        name in prev.address
+          ? {
+              ...prev.address,
+              [name]: value,
+            }
+          : prev.address,
+    }));
+  }, []);
 
-    if (name in formData.address) {
-      setFormData((prev) => ({
-        ...prev,
-        address: {
-          ...prev.address,
-          [name]: value,
-        },
-      }));
-      return;
-    }
-
-    if (name in formData) {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    }
-  };
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    dispatch(updateUser(formData));
-    onCancel();
-  };
+  const handleSubmit = useCallback(
+    async (e: FormEvent) => {
+      e.preventDefault();
+      await dispatch(updateUser(formData)).unwrap();
+      onCancel();
+    },
+    [dispatch, formData, onCancel],
+  );
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 p-4 mt-2">
