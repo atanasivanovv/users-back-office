@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "antd";
@@ -31,41 +31,41 @@ interface UserFormProps {
 
 const UserForm: FC<UserFormProps> = ({ user, onCancel }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const updateStatus = useSelector(
-    (state: RootState) => state.users.updateStatus,
+  const { updateStatus, updateError } = useSelector(
+    (state: RootState) => state.users,
   );
-  const updateError = useSelector(
-    (state: RootState) => state.users.updateError,
-  );
-
-  console.log(updateError);
-
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: user,
   });
 
-  const onSubmit: SubmitHandler<UserFormData> = async (data) => {
-    try {
-      const updatedUser = {
-        ...user,
-        ...data,
-        address: {
-          ...user.address,
-          ...data.address,
-        },
-      };
+  const onSubmit: SubmitHandler<UserFormData> = useCallback(
+    async (data) => {
+      try {
+        const updatedUser = {
+          ...user,
+          ...data,
+          address: {
+            ...user.address,
+            ...data.address,
+          },
+        };
 
-      await dispatch(updateUser(updatedUser)).unwrap();
-      onCancel();
-    } catch (error) {
-      console.error("Failed to update user:", error);
-    }
-  };
+        await dispatch(updateUser(updatedUser)).unwrap();
+        onCancel();
+      } catch (error) {
+        console.error("Failed to update user:", error);
+      }
+    },
+    [dispatch, onCancel, user],
+  );
+
+  const isLoading = useMemo(() => updateStatus === "loading", [updateStatus]);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4 mt-2">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -170,7 +170,8 @@ const UserForm: FC<UserFormProps> = ({ user, onCancel }) => {
             type="primary"
             size="large"
             htmlType="submit"
-            loading={updateStatus === "loading"}
+            loading={isLoading}
+            disabled={!isDirty || isLoading}
           >
             Save
           </Button>
