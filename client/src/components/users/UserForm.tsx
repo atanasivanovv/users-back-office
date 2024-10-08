@@ -9,7 +9,7 @@ import { updateUser } from "../../store/usersSlice";
 
 import { User } from "../../types";
 import { AppDispatch, RootState } from "../../store";
-import { Error } from "../error/Error";
+import { ErrorMessage } from "../error";
 
 type UserFormData = Pick<User, "username" | "email" | "address">;
 
@@ -160,7 +160,7 @@ const UserForm: FC<UserFormProps> = ({ user, onCancel }) => {
 
       <div className="flex justify-between items-center pt-2">
         <div className="justify-start">
-          <Error message={updateError} />
+          <ErrorMessage message={updateError} />
         </div>
         <div className="flex justify-end gap-2">
           <Button onClick={onCancel} size="large">

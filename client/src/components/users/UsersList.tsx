@@ -3,6 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchUsers } from "../../store/usersSlice";
 import { RootState, AppDispatch } from "../../store";
 import UserCard from "./UserCard";
+import { UsersLoading } from "../loading/UsersLoading";
+import { ErrorPage } from "../error";
+import { NoResultsPage } from "../not-found/NoResultsPage";
 
 const UsersList = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -16,12 +19,17 @@ const UsersList = () => {
     }
   }, [status, dispatch]);
 
-  if (status === "loading")
-    return <div className="text-center py-4">Loading...</div>;
-  if (status === "failed")
-    return <div className="text-center py-4 text-red-500">Error: {error}</div>;
-  if (users.length === 0)
-    return <div className="text-center py-4">No users found.</div>;
+  if (status === "loading") {
+    return <UsersLoading />;
+  }
+
+  if (status === "failed" && error) {
+    return <ErrorPage error={error} />;
+  }
+
+  if (users.length === 0) {
+    return <NoResultsPage emoji="🤔" resultsName="users" />;
+  }
 
   return (
     <div className="grid gap-4 grid-cols-1">

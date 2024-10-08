@@ -1,7 +1,9 @@
 const baseUrl = " https://jsonplaceholder.typicode.com";
 
-export default {
+const api = {
   users: `${baseUrl}/users`,
   posts: `${baseUrl}/posts`,
   tasks: `${baseUrl}/todos`,
 };
+
+export default api;

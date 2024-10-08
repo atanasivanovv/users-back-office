@@ -1,4 +1,4 @@
-export const Error = ({ message }: { message: string | null }) => {
+const ErrorMessage = ({ message }: { message: string | null }) => {
   if (!message) {
     return null;
   }
@@ -9,3 +9,5 @@ export const Error = ({ message }: { message: string | null }) => {
     </p>
   );
 };
+
+export default ErrorMessage;

@@ -2,8 +2,8 @@ import { NavLink } from "react-router-dom";
 
 const getLinkClasses = ({ isActive }: { isActive: boolean }) =>
   isActive
-    ? "text-primary-500 font-bold hover:text-primary-700"
-    : "text-primary-500 hover:text-primary-700";
+    ? "text-primary-400 font-bold hover:text-primary-600"
+    : "text-primary-400 hover:text-primary-600";
 
 const Header = () => {
   return (
