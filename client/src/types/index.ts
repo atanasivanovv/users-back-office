@@ -17,3 +17,16 @@ export interface User {
     bs: string;
   };
 }
+
+export interface Task {
+  id: number;
+  userId: number;
+  title: string;
+  completed: boolean;
+}
+
+export interface TaskFilters {
+  status: "all" | "completed" | "incomplete";
+  title: string;
+  userId: string;
+}
