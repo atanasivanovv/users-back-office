@@ -16,3 +16,4 @@ export type AppDispatch = typeof store.dispatch;
 
 export * from "./usersSlice";
 export * from "./tasksSlice";
+export * from "./postsSlice";

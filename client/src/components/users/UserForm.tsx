@@ -30,10 +30,15 @@ const schema = yup.object().shape({
 
 interface UserFormProps {
   user: User;
-  onCancel: () => void;
+  onCancel?: () => void;
+  withBackground?: boolean;
 }
 
-const UserForm: FC<UserFormProps> = ({ user, onCancel }) => {
+const UserForm: FC<UserFormProps> = ({
+  user,
+  onCancel,
+  withBackground = false,
+}) => {
   const dispatch = useDispatch<AppDispatch>();
   const { updateStatus, editingUser, updateError } = useSelector(
     (state: RootState) => state.users,
@@ -65,7 +70,10 @@ const UserForm: FC<UserFormProps> = ({ user, onCancel }) => {
         };
 
         await dispatch(updateUser(updatedUser)).unwrap();
-        onCancel();
+
+        if (onCancel) {
+          onCancel();
+        }
       } catch (error) {
         console.error("Failed to update user:", error);
       }
@@ -81,7 +89,10 @@ const UserForm: FC<UserFormProps> = ({ user, onCancel }) => {
   const isLoading = useMemo(() => updateStatus === "loading", [updateStatus]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4 mt-2">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className={`space-y-4 p-4 mt-2 ${withBackground && "bg-white shadow-md rounded-lg p-6"}`}
+    >
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <div>
           <span className="font-bold">Username:</span>
@@ -177,9 +188,11 @@ const UserForm: FC<UserFormProps> = ({ user, onCancel }) => {
           <ErrorMessage message={updateError} />
         </div>
         <div className="flex justify-end gap-2">
-          <Button onClick={onCancel} size="large">
-            Cancel
-          </Button>
+          {onCancel && (
+            <Button onClick={onCancel} size="large">
+              Cancel
+            </Button>
+          )}
           <Button
             onClick={handleRevert}
             size="large"

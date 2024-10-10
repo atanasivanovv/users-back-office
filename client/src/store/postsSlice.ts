@@ -7,12 +7,16 @@ interface PostsState {
   posts: Post[];
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
+  updateStatus: "idle" | "loading" | "succeeded" | "failed";
+  updateError: string | null;
 }
 
 const initialState: PostsState = {
   posts: [],
   status: "idle",
   error: null,
+  updateStatus: "idle",
+  updateError: null,
 };
 
 export const fetchUserPosts = createAsyncThunk(
@@ -59,16 +63,34 @@ const postsSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message || "Failed to fetch posts";
       })
+      .addCase(updatePost.pending, (state) => {
+        state.updateStatus = "loading";
+      })
       .addCase(updatePost.fulfilled, (state, action: PayloadAction<Post>) => {
+        state.updateStatus = "succeeded";
         const index = state.posts.findIndex(
           (post) => post.id === action.payload.id,
         );
         if (index !== -1) {
           state.posts[index] = action.payload;
         }
+        state.updateError = null;
+      })
+      .addCase(updatePost.rejected, (state, action) => {
+        state.updateStatus = "failed";
+        state.updateError = action.error.message || "Failed to update post";
+      })
+      .addCase(deletePost.pending, (state) => {
+        state.updateStatus = "loading";
       })
       .addCase(deletePost.fulfilled, (state, action: PayloadAction<number>) => {
+        state.updateStatus = "succeeded";
         state.posts = state.posts.filter((post) => post.id !== action.payload);
+        state.updateError = null;
+      })
+      .addCase(deletePost.rejected, (state, action) => {
+        state.updateStatus = "failed";
+        state.updateError = action.error.message || "Failed to delete post";
       });
   },
 });
