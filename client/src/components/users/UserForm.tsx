@@ -14,8 +14,6 @@ import {
 import { User } from "../../types";
 import { AppDispatch, RootState } from "../../store";
 import { ErrorMessage } from "../error";
-import { Simulate } from "react-dom/test-utils";
-import reset = Simulate.reset;
 
 type UserFormData = Pick<User, "username" | "email" | "address">;
 
