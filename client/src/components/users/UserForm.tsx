@@ -1,15 +1,21 @@
-import { FC, useCallback, useMemo } from "react";
+import { FC, useCallback, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "antd";
 
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { updateUser } from "../../store/usersSlice";
+import {
+  revertUserChanges,
+  setEditingUser,
+  updateUser,
+} from "../../store/usersSlice";
 
 import { User } from "../../types";
 import { AppDispatch, RootState } from "../../store";
 import { ErrorMessage } from "../error";
+import { Simulate } from "react-dom/test-utils";
+import reset = Simulate.reset;
 
 type UserFormData = Pick<User, "username" | "email" | "address">;
 
@@ -31,17 +37,22 @@ interface UserFormProps {
 
 const UserForm: FC<UserFormProps> = ({ user, onCancel }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { updateStatus, updateError } = useSelector(
+  const { updateStatus, editingUser, updateError } = useSelector(
     (state: RootState) => state.users,
   );
   const {
     register,
     handleSubmit,
     formState: { errors, isDirty },
+    reset,
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: user,
+    defaultValues: editingUser || user,
   });
+
+  useEffect(() => {
+    dispatch(setEditingUser(user));
+  }, [dispatch, user]);
 
   const onSubmit: SubmitHandler<UserFormData> = useCallback(
     async (data) => {
@@ -63,6 +74,11 @@ const UserForm: FC<UserFormProps> = ({ user, onCancel }) => {
     },
     [dispatch, onCancel, user],
   );
+
+  const handleRevert = useCallback(() => {
+    dispatch(revertUserChanges(user.id));
+    reset(user);
+  }, [dispatch, reset, user]);
 
   const isLoading = useMemo(() => updateStatus === "loading", [updateStatus]);
 
@@ -165,6 +181,13 @@ const UserForm: FC<UserFormProps> = ({ user, onCancel }) => {
         <div className="flex justify-end gap-2">
           <Button onClick={onCancel} size="large">
             Cancel
+          </Button>
+          <Button
+            onClick={handleRevert}
+            size="large"
+            disabled={!isDirty || isLoading}
+          >
+            Revert
           </Button>
           <Button
             type="primary"

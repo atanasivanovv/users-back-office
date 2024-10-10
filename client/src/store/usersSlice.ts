@@ -6,6 +6,7 @@ import { User } from "../types";
 interface UsersState {
   users: User[];
   status: "idle" | "loading" | "succeeded" | "failed";
+  editingUser: User | null;
   error: string | null;
   updateStatus: "idle" | "loading" | "succeeded" | "failed";
   updateError: string | null;
@@ -14,6 +15,7 @@ interface UsersState {
 const initialState: UsersState = {
   users: [],
   status: "idle",
+  editingUser: null,
   error: null,
   updateStatus: "idle",
   updateError: null,
@@ -35,7 +37,19 @@ export const updateUser = createAsyncThunk(
 const usersSlice = createSlice({
   name: "users",
   initialState,
-  reducers: {},
+  reducers: {
+    revertUserChanges: (state, action: PayloadAction<number>) => {
+      const originalUser = state.users.find(
+        (user) => user.id === action.payload,
+      );
+      if (originalUser) {
+        state.editingUser = originalUser;
+      }
+    },
+    setEditingUser: (state, action: PayloadAction<User>) => {
+      state.editingUser = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchUsers.pending, (state) => {
@@ -68,4 +82,5 @@ const usersSlice = createSlice({
   },
 });
 
+export const { setEditingUser, revertUserChanges } = usersSlice.actions;
 export default usersSlice.reducer;
