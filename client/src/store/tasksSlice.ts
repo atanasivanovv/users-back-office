@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Task, TaskFilters } from "../types";
 import { defaultPage } from "../constants";
+import api from "../api";
 
 interface TasksState {
   tasks: Task[];
@@ -26,19 +27,14 @@ const initialState: TasksState = {
 };
 
 export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async () => {
-  const response = await axios.get(
-    "https://jsonplaceholder.typicode.com/todos",
-  );
+  const response = await axios.get(api.tasks);
   return response.data;
 });
 
 export const updateTaskStatus = createAsyncThunk(
   "tasks/updateTaskStatus",
   async ({ id, completed }: { id: number; completed: boolean }) => {
-    const response = await axios.patch(
-      `https://jsonplaceholder.typicode.com/todos/${id}`,
-      { completed },
-    );
+    const response = await axios.patch(`${api.tasks}/${id}`, { completed });
     return response.data;
   },
 );
