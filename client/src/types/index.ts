@@ -18,6 +18,13 @@ export interface User {
   };
 }
 
+export interface Post {
+  id: number;
+  userId: number;
+  title: string;
+  body: string;
+}
+
 export interface Task {
   id: number;
   userId: number;
