@@ -37,7 +37,7 @@ export default [
   pluginReact.configs.flat.recommended,
 
   {
-    files: ["**/*.test.{js,jsx,ts,tsx}", "**/__tests__/*.{js,jsx,ts,tsx}"],
+    files: ["**/*.test.{js,jsx,ts,tsx}", "**/__tests__/*.{js,jsx,ts,tsx}", 'src/tests/**'],
     languageOptions: {
       globals: globals.jest, // Jest globals like `test`, `expect`
     },
