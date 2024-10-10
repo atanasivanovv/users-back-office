@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Task, TaskFilters } from "../types";
+import { defaultPage } from "../constants";
 
 interface TasksState {
   tasks: Task[];
@@ -54,7 +55,7 @@ const tasksSlice = createSlice({
         ...state.filters,
         [action.payload.key]: action.payload.value,
       };
-      state.currentPage = 1; // Reset to first page when filter changes
+      state.currentPage = defaultPage;
     },
     setCurrentPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;

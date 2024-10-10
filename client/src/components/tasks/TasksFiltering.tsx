@@ -16,17 +16,17 @@ export const TasksFiltering = ({ filters }: { filters: TaskFilters }) => {
   };
 
   return (
-    <div style={{ marginBottom: 16 }}>
+    <div className="mb-4">
       <Input
         placeholder="Filter by title"
         value={filters.title}
         onChange={(e) => handleFilterChange("title", e.target.value)}
-        style={{ width: 200, marginRight: 8 }}
+        className="w-full mt-2 md:mt-0  md:w-64 mr-2 h-10"
       />
       <Select
         value={filters.status}
         onChange={(value) => handleFilterChange("status", value)}
-        style={{ width: 200, marginRight: 8 }}
+        className="w-full mt-2 md:mt-0 md:w-64 mr-2 h-10"
       >
         <Option value="all">All</Option>
         <Option value="completed">Completed</Option>
@@ -35,7 +35,7 @@ export const TasksFiltering = ({ filters }: { filters: TaskFilters }) => {
       <Select
         value={filters.userId}
         onChange={(value) => handleFilterChange("userId", value)}
-        style={{ width: 200 }}
+        className="w-full mt-2 md:mt-0 md:w-64 mr-2 h-10"
       >
         <Option value="all">All Users</Option>
         {users.map((user) => (

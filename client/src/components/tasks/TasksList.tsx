@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   AppDispatch,
@@ -12,6 +12,7 @@ import {
 import { Table, Select, Pagination } from "antd";
 import { Task } from "../../types";
 import { TasksFiltering } from "./TasksFiltering";
+import { defaultPageSize } from "../../constants";
 
 const { Option } = Select;
 
@@ -69,6 +70,8 @@ const TasksList: React.FC = () => {
     },
   ];
 
+  const isLoading = useMemo(() => status === "loading", [status]);
+
   return (
     <div>
       <TasksFiltering filters={filters} />
@@ -80,14 +83,17 @@ const TasksList: React.FC = () => {
         columns={columns}
         rowKey="id"
         pagination={false}
-        loading={status === "loading"}
+        loading={isLoading}
+        locale={{ emptyText: "No tasks found." }}
       />
       <Pagination
+        className="mt-4 justify-end"
         current={currentPage}
         onChange={(page) => dispatch(setCurrentPage(page))}
         total={filteredTasks.length}
-        pageSize={10}
-        style={{ marginTop: 16, justifyContent: "end" }}
+        pageSize={defaultPageSize}
+        showSizeChanger={false}
+        hideOnSinglePage
       />
     </div>
   );
