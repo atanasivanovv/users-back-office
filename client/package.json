@@ -2,14 +2,13 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.112",
-    "@types/react": "^18.3.11",
-    "@types/react-dom": "^18.3.0",
     "antd": "^5.21.2",
     "axios": "^1.7.7",
     "client": "file:",
@@ -37,6 +36,17 @@
       "react-app/jest"
     ]
   },
+  "jest": {
+    "transform": {
+      "^.+\\.(js|jsx|ts|tsx)$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(axios)/)"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+    }
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -50,17 +60,25 @@
     ]
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.25.7",
+    "@babel/preset-react": "^7.25.7",
     "@eslint/js": "^9.11.1",
     "@hookform/resolvers": "^3.9.0",
+    "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.0.1",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.0",
     "autoprefixer": "^10.4.20",
+    "babel-jest": "^29.7.0",
     "eslint": "^8.57.1",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.37.1",
     "globals": "^15.10.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^27.5.1",
     "postcss": "^8.4.47",
     "react-hook-form": "^7.53.0",
+    "react-test-renderer": "^18.3.1",
     "tailwindcss": "^3.4.13",
     "typescript-eslint": "^8.8.0",
     "yup": "^1.4.0"

@@ -8,6 +8,10 @@ interface UserCardProps {
   user: User;
 }
 
+export const testIds = {
+  userCard: "user-card",
+};
+
 const UserCard: React.FC<UserCardProps> = ({ user }) => {
   const [expanded, setExpanded] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -95,7 +99,10 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
   }
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-4 text-gray-800">
+    <div
+      data-testid={testIds.userCard}
+      className="bg-white shadow-md rounded-lg p-4 text-gray-800"
+    >
       {headerContent}
       {expanded && detailsContent}
     </div>
