@@ -15,8 +15,8 @@ const Header = () => {
         </h2>
         <ul className="flex space-x-4 text-lg">
           <li>
-            <NavLink to="/" className={getLinkClasses}>
-              HOME
+            <NavLink to="/users" className={getLinkClasses}>
+              USERS
             </NavLink>
           </li>
           <li>

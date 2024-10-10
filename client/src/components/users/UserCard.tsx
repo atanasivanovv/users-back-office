@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Button } from "antd";
 import { User } from "../../types";
 import UserForm from "./UserForm";
@@ -77,12 +77,12 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
           <Button onClick={() => setIsEditing(true)} size="large">
             Edit
           </Button>
-          <Link
-            to={`/user/${user.id}/posts`}
+          <NavLink
+            to={`/users/${user.id}/posts`}
             className="bg-primary-500 text-white px-4 py-2 rounded-[8px] hover:bg-primary-300 transition"
           >
             See posts
-          </Link>
+          </NavLink>
         </div>
       </div>
     ),

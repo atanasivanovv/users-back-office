@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import { Layout } from "./components/layout";
@@ -11,9 +16,11 @@ const App = () => (
     <Router>
       <Layout>
         <Routes>
-          <Route path="/" element={<UsersList />} />
+          <Route path="/users" element={<UsersList />} />
           <Route path="/tasks" element={<TasksList />} />
-          <Route path="/user/:userId/posts" element={<UserPosts />} />
+          <Route path="/users/:userId/posts" element={<UserPosts />} />
+
+          <Route path="*" element={<Navigate to="/users" replace />} />
         </Routes>
       </Layout>
     </Router>
