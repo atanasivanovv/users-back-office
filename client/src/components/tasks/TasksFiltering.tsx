@@ -7,7 +7,7 @@ import { TaskFilters } from "../../types";
 const { Option } = Select;
 
 export const TasksFiltering = ({ filters }: { filters: TaskFilters }) => {
-  const { users } = useSelector((state: RootState) => state.users);
+  const { data: users } = useSelector((state: RootState) => state.users);
 
   const dispatch = useDispatch<AppDispatch>();
 

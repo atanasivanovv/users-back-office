@@ -2,21 +2,19 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Post } from "../types";
 import api from "../api";
+import {
+  defaultState,
+  defaultUpdateState,
+  RequestStateWithUpdate,
+} from "./utils";
 
-interface PostsState {
-  posts: Post[];
-  status: "idle" | "loading" | "succeeded" | "failed";
-  error: string | null;
-  updateStatus: "idle" | "loading" | "succeeded" | "failed";
-  updateError: string | null;
-}
+type PostsState = RequestStateWithUpdate<Post>;
 
 const initialState: PostsState = {
-  posts: [],
-  status: "idle",
-  error: null,
-  updateStatus: "idle",
-  updateError: null,
+  ...defaultState,
+  update: {
+    ...defaultUpdateState,
+  },
 };
 
 export const fetchUserPosts = createAsyncThunk(
@@ -56,7 +54,7 @@ const postsSlice = createSlice({
         fetchUserPosts.fulfilled,
         (state, action: PayloadAction<Post[]>) => {
           state.status = "succeeded";
-          state.posts = action.payload;
+          state.data = action.payload;
         },
       )
       .addCase(fetchUserPosts.rejected, (state, action) => {
@@ -64,33 +62,33 @@ const postsSlice = createSlice({
         state.error = action.error.message || "Failed to fetch posts";
       })
       .addCase(updatePost.pending, (state) => {
-        state.updateStatus = "loading";
+        state.update.status = "loading";
       })
       .addCase(updatePost.fulfilled, (state, action: PayloadAction<Post>) => {
-        state.updateStatus = "succeeded";
-        const index = state.posts.findIndex(
+        state.update.status = "succeeded";
+        const index = state.data.findIndex(
           (post) => post.id === action.payload.id,
         );
         if (index !== -1) {
-          state.posts[index] = action.payload;
+          state.data[index] = action.payload;
         }
-        state.updateError = null;
+        state.update.error = null;
       })
       .addCase(updatePost.rejected, (state, action) => {
-        state.updateStatus = "failed";
-        state.updateError = action.error.message || "Failed to update post";
+        state.update.status = "failed";
+        state.update.error = action.error.message || "Failed to update post";
       })
       .addCase(deletePost.pending, (state) => {
-        state.updateStatus = "loading";
+        state.update.status = "loading";
       })
       .addCase(deletePost.fulfilled, (state, action: PayloadAction<number>) => {
-        state.updateStatus = "succeeded";
-        state.posts = state.posts.filter((post) => post.id !== action.payload);
-        state.updateError = null;
+        state.update.status = "succeeded";
+        state.data = state.data.filter((post) => post.id !== action.payload);
+        state.update.error = null;
       })
       .addCase(deletePost.rejected, (state, action) => {
-        state.updateStatus = "failed";
-        state.updateError = action.error.message || "Failed to delete post";
+        state.update.status = "failed";
+        state.update.error = action.error.message || "Failed to delete post";
       });
   },
 });

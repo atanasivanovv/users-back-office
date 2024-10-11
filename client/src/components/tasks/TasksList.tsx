@@ -21,7 +21,7 @@ const TasksList: React.FC = () => {
   const { filteredTasks, status, filters, currentPage } = useSelector(
     (state: RootState) => state.tasks,
   );
-  const { users } = useSelector((state: RootState) => state.users);
+  const { data: users } = useSelector((state: RootState) => state.users);
 
   useEffect(() => {
     dispatch(fetchTasks());

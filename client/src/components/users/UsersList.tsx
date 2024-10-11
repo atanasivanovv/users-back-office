@@ -9,9 +9,11 @@ import { NoResultsPage } from "../not-found/NoResultsPage";
 
 const UsersList = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { users, status, error } = useSelector(
-    (state: RootState) => state.users,
-  );
+  const {
+    data: users,
+    status,
+    error,
+  } = useSelector((state: RootState) => state.users);
 
   useEffect(() => {
     if (status === "idle") {

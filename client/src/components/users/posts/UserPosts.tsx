@@ -13,6 +13,7 @@ import { Button, Card, Input, Modal } from "antd";
 import UserForm from "../UserForm";
 import { NoResultsPage } from "../../not-found/NoResultsPage";
 import { PostsLoading } from "../../loading";
+import { ErrorPage } from "../../error";
 
 const { TextArea } = Input;
 
@@ -20,8 +21,8 @@ const UserPosts: FC = () => {
   const { userId } = useParams<{ userId: string }>();
   const dispatch = useDispatch<AppDispatch>();
   const {
-    posts: { posts, status, updateStatus },
-    users: { users },
+    posts: { data: posts, status: postsStatus, error: postsError, update },
+    users: { data: users },
   } = useSelector((state: RootState) => state);
 
   const [editingState, setEditingState] = useState<{
@@ -38,9 +39,7 @@ const UserPosts: FC = () => {
   }, [dispatch, userId]);
 
   const user = users.find((u) => u.id === parseInt(userId || ""));
-
-  const loadingPosts = status === "loading";
-  const isUpdating = updateStatus === "loading";
+  const isUpdating = update.status === "loading";
 
   const handleEdit = (postId: number, title: string, body: string) => {
     setEditingState((prev) => ({ ...prev, title, body, postId }));
@@ -81,8 +80,12 @@ const UserPosts: FC = () => {
     });
   };
 
-  if (loadingPosts) {
+  if (postsStatus === "loading") {
     return <PostsLoading />;
+  }
+
+  if (postsStatus === "failed" && postsError) {
+    return <ErrorPage error={postsError} />;
   }
 
   if (!user) {

@@ -2,23 +2,22 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import api from "../api";
 import axios from "axios";
 import { User } from "../types";
+import {
+  defaultState,
+  defaultUpdateState,
+  RequestStateWithUpdate,
+} from "./utils";
 
-interface UsersState {
-  users: User[];
-  status: "idle" | "loading" | "succeeded" | "failed";
+interface UsersState extends RequestStateWithUpdate<User> {
   editingUser: User | null;
-  error: string | null;
-  updateStatus: "idle" | "loading" | "succeeded" | "failed";
-  updateError: string | null;
 }
 
 const initialState: UsersState = {
-  users: [],
-  status: "idle",
+  ...defaultState,
   editingUser: null,
-  error: null,
-  updateStatus: "idle",
-  updateError: null,
+  update: {
+    ...defaultUpdateState,
+  },
 };
 
 export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
@@ -39,7 +38,7 @@ const usersSlice = createSlice({
   initialState,
   reducers: {
     revertUserChanges: (state, action: PayloadAction<number>) => {
-      const originalUser = state.users.find(
+      const originalUser = state.data.find(
         (user) => user.id === action.payload,
       );
       if (originalUser) {
@@ -57,27 +56,27 @@ const usersSlice = createSlice({
       })
       .addCase(fetchUsers.fulfilled, (state, action: PayloadAction<User[]>) => {
         state.status = "succeeded";
-        state.users = action.payload;
+        state.data = action.payload;
       })
       .addCase(fetchUsers.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message || "Something went wrong";
       })
       .addCase(updateUser.pending, (state) => {
-        state.updateStatus = "loading";
+        state.update.status = "loading";
       })
       .addCase(updateUser.fulfilled, (state, action: PayloadAction<User>) => {
-        state.updateStatus = "succeeded";
-        const index = state.users.findIndex(
+        state.update.status = "succeeded";
+        const index = state.data.findIndex(
           (user) => user.id === action.payload.id,
         );
         if (index !== -1) {
-          state.users[index] = action.payload;
+          state.data[index] = action.payload;
         }
       })
       .addCase(updateUser.rejected, (state, action) => {
-        state.updateStatus = "failed";
-        state.updateError = action.error.message || "Failed to update user";
+        state.update.status = "failed";
+        state.update.error = action.error.message || "Failed to update user";
       });
   },
 });

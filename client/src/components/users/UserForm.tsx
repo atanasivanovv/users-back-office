@@ -40,7 +40,7 @@ const UserForm: FC<UserFormProps> = ({
   withBackground = false,
 }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { updateStatus, editingUser, updateError } = useSelector(
+  const { update, editingUser } = useSelector(
     (state: RootState) => state.users,
   );
   const {
@@ -86,7 +86,7 @@ const UserForm: FC<UserFormProps> = ({
     reset(user);
   }, [dispatch, reset, user]);
 
-  const isLoading = useMemo(() => updateStatus === "loading", [updateStatus]);
+  const isLoading = useMemo(() => update.status === "loading", [update.status]);
 
   return (
     <form
@@ -185,7 +185,7 @@ const UserForm: FC<UserFormProps> = ({
 
       <div className="flex justify-between items-center pt-2">
         <div className="justify-start">
-          <ErrorMessage message={updateError} />
+          <ErrorMessage message={update.error} />
         </div>
         <div className="flex justify-end gap-2">
           {onCancel && (

@@ -3,21 +3,17 @@ import axios from "axios";
 import { Task, TaskFilters } from "../types";
 import { defaultPage } from "../constants";
 import api from "../api";
+import { defaultState, RequestState } from "./utils";
 
-interface TasksState {
-  tasks: Task[];
+interface TasksState extends RequestState<Task> {
   filteredTasks: Task[];
-  status: "idle" | "loading" | "succeeded" | "failed";
-  error: string | null;
   filters: TaskFilters;
   currentPage: number;
 }
 
 const initialState: TasksState = {
-  tasks: [],
+  ...defaultState,
   filteredTasks: [],
-  status: "idle",
-  error: null,
   filters: {
     status: "all",
     title: "",
@@ -57,7 +53,7 @@ const tasksSlice = createSlice({
       state.currentPage = action.payload;
     },
     applyFilters: (state) => {
-      state.filteredTasks = state.tasks.filter((task) => {
+      state.filteredTasks = state.data.filter((task) => {
         const statusMatch =
           state.filters.status === "all" ||
           (state.filters.status === "completed"
@@ -80,7 +76,7 @@ const tasksSlice = createSlice({
       })
       .addCase(fetchTasks.fulfilled, (state, action: PayloadAction<Task[]>) => {
         state.status = "succeeded";
-        state.tasks = action.payload;
+        state.data = action.payload;
         state.filteredTasks = action.payload;
       })
       .addCase(fetchTasks.rejected, (state, action) => {
@@ -90,11 +86,11 @@ const tasksSlice = createSlice({
       .addCase(
         updateTaskStatus.fulfilled,
         (state, action: PayloadAction<Task>) => {
-          const index = state.tasks.findIndex(
+          const index = state.data.findIndex(
             (task) => task.id === action.payload.id,
           );
           if (index !== -1) {
-            state.tasks[index] = action.payload;
+            state.data[index] = action.payload;
           }
           const filteredIndex = state.filteredTasks.findIndex(
             (task) => task.id === action.payload.id,
