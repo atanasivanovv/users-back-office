@@ -10,7 +10,11 @@ export const PostsLoading = () => (
     {Array(defaultPageSize)
       .fill(0)
       .map((_, i) => (
-        <Skeleton key={i} style={{ width: "100%" }} height={150} />
+        <Skeleton
+          key={`post-skl-${i}`}
+          style={{ width: "100%" }}
+          height={150}
+        />
       ))}
   </div>
 );

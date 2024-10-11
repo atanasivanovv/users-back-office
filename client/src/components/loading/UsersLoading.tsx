@@ -7,7 +7,7 @@ export const UsersLoading = () => (
     {Array(defaultPageSize)
       .fill(0)
       .map((_, i) => (
-        <Skeleton key={i} style={{ width: "100%" }} height={60} />
+        <Skeleton key={`user-skl-${i}`} style={{ width: "100%" }} height={60} />
       ))}
   </div>
 );

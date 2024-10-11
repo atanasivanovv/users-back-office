@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchUsers } from "../../store/slices";
-import { RootState, AppDispatch } from "../../store/slices";
+import { RootState, AppDispatch, fetchUsers } from "../../store/slices";
 import UserCard from "./UserCard";
 import { UsersLoading } from "../loading/UsersLoading";
 import { ErrorPage } from "../error";
