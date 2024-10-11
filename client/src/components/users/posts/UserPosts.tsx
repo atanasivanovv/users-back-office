@@ -1,4 +1,4 @@
-import { FC, ChangeEvent, useEffect, useMemo, useState } from "react";
+import { FC, ChangeEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -12,6 +12,7 @@ import {
 import { Button, Card, Input, Modal } from "antd";
 import UserForm from "../UserForm";
 import { NoResultsPage } from "../../not-found/NoResultsPage";
+import { PostsLoading } from "../../loading";
 
 const { TextArea } = Input;
 
@@ -38,6 +39,9 @@ const UserPosts: FC = () => {
 
   const user = users.find((u) => u.id === parseInt(userId || ""));
 
+  const loadingPosts = status === "loading";
+  const isUpdating = updateStatus === "loading";
+
   const handleEdit = (postId: number, title: string, body: string) => {
     setEditingState((prev) => ({ ...prev, title, body, postId }));
   };
@@ -62,7 +66,7 @@ const UserPosts: FC = () => {
           userId: parseInt(userId || ""),
           title: editingState.title,
           body: editingState.body,
-        }),
+        })
       );
       setEditingState((prev) => ({ ...prev, postId: null }));
     }
@@ -77,10 +81,8 @@ const UserPosts: FC = () => {
     });
   };
 
-  const isUpdating = useMemo(() => updateStatus === "loading", [updateStatus]);
-
-  if (status === "loading") {
-    return <div>Loading...</div>;
+  if (loadingPosts) {
+    return <PostsLoading />;
   }
 
   if (!user) {
