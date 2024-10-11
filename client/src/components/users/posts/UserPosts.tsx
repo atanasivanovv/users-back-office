@@ -8,7 +8,7 @@ import {
   fetchUserPosts,
   updatePost,
   deletePost,
-} from "../../../store";
+} from "../../../store/slices";
 import { Button, Card, Input, Modal } from "antd";
 import UserForm from "../UserForm";
 import { NoResultsPage } from "../../not-found/NoResultsPage";

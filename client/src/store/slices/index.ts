@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import usersReducer from "./usersSlice";
-import tasksReducer from "./tasksSlice";
-import postsReducer from "./postsSlice";
+import usersReducer from "./users";
+import tasksReducer from "./tasks";
+import postsReducer from "./posts";
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +14,6 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
-export * from "./usersSlice";
-export * from "./tasksSlice";
-export * from "./postsSlice";
+export * from "./users";
+export * from "./tasks";
+export * from "./posts";

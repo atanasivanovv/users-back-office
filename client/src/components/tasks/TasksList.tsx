@@ -8,7 +8,7 @@ import {
   updateTaskStatus,
   setCurrentPage,
   applyFilters,
-} from "../../store";
+} from "../../store/slices";
 import { Table, Select, Pagination } from "antd";
 import { Task } from "../../types";
 import { TasksFiltering } from "./TasksFiltering";

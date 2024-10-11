@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Post } from "../types";
-import api from "../api";
+import { Post } from "../../types";
+import api from "../../api";
 import {
   defaultState,
   defaultUpdateState,
   RequestStateWithUpdate,
-} from "./utils";
+} from "../utils";
 
 type PostsState = RequestStateWithUpdate<Post>;
 

@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import api from "../api";
+import api from "../../api";
 import axios from "axios";
-import { User } from "../types";
+import { User } from "../../types";
 import {
   defaultState,
   defaultUpdateState,
   RequestStateWithUpdate,
-} from "./utils";
+} from "../utils";
 
 interface UsersState extends RequestStateWithUpdate<User> {
   editingUser: User | null;

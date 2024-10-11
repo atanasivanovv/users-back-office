@@ -1,6 +1,6 @@
 import { Input, Select } from "antd";
 import React from "react";
-import { AppDispatch, RootState, setFilter } from "../../store";
+import { AppDispatch, RootState, setFilter } from "../../store/slices";
 import { useDispatch, useSelector } from "react-redux";
 import { TaskFilters } from "../../types";
 

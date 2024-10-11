@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Task, TaskFilters } from "../types";
-import { defaultPage } from "../constants";
-import api from "../api";
-import { defaultState, RequestState } from "./utils";
+import { Task, TaskFilters } from "../../types";
+import { defaultPage } from "../../constants";
+import api from "../../api";
+import { defaultState, RequestState } from "../utils";
 
 interface TasksState extends RequestState<Task> {
   filteredTasks: Task[];

@@ -9,10 +9,10 @@ import {
   revertUserChanges,
   setEditingUser,
   updateUser,
-} from "../../store/usersSlice";
+} from "../../store/slices/users";
 
 import { User } from "../../types";
-import { AppDispatch, RootState } from "../../store";
+import { AppDispatch, RootState } from "../../store/slices";
 import { ErrorMessage } from "../error";
 
 type UserFormData = Pick<User, "username" | "email" | "address">;
