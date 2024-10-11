@@ -10,7 +10,7 @@ describe("App", () => {
     renderComponent();
 
     await screen.findByText(/Users Back Office/);
-    await screen.findByText(/HOME/);
+    await screen.findByText(/USERS/);
     await screen.findByText(/TASKS/);
 
     await waitForSkeletonsToHide();

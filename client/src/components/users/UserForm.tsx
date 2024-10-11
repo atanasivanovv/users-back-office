@@ -15,6 +15,11 @@ import { User } from "../../types";
 import { AppDispatch, RootState } from "../../store/slices";
 import { ErrorMessage } from "../error";
 
+export const testIds = {
+  saveBtn: "save-btn",
+  revertBtn: "revert-btn",
+};
+
 type UserFormData = Pick<User, "username" | "email" | "address">;
 
 const schema = yup.object().shape({
@@ -195,6 +200,7 @@ const UserForm: FC<UserFormProps> = ({
           )}
           <Button
             onClick={handleRevert}
+            data-testid={testIds.revertBtn}
             size="large"
             disabled={!isDirty || isLoading}
           >
@@ -202,6 +208,7 @@ const UserForm: FC<UserFormProps> = ({
           </Button>
           <Button
             type="primary"
+            data-testid={testIds.saveBtn}
             size="large"
             htmlType="submit"
             loading={isLoading}

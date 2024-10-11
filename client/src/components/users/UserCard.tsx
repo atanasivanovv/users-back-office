@@ -10,6 +10,9 @@ interface UserCardProps {
 
 export const testIds = {
   userCard: "user-card",
+  expandCard: "expand-card",
+  editBtn: "edit-btn",
+  seePostsBtn: "see-posts-btn",
 };
 
 const UserCard: React.FC<UserCardProps> = ({ user }) => {
@@ -31,7 +34,11 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
         <h2 className="text-xl font-semibold">
           <i className="fa-solid fa-user mx-2" /> {user.name}
         </h2>
-        <button className="mr-2" onClick={toggleExpanded}>
+        <button
+          data-testid={testIds.expandCard}
+          className="mr-2"
+          onClick={toggleExpanded}
+        >
           <i
             className={`fa-solid fa-chevron-down transition-transform duration-300 ${
               expanded ? "rotate-180" : "rotate-0"
@@ -74,11 +81,16 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
           </p>
         </div>
         <div className="flex justify-end gap-2 mt-4">
-          <Button onClick={() => setIsEditing(true)} size="large">
+          <Button
+            data-testid={testIds.editBtn}
+            onClick={() => setIsEditing(true)}
+            size="large"
+          >
             Edit
           </Button>
           <NavLink
             to={`/users/${user.id}/posts`}
+            data-testid={testIds.seePostsBtn}
             className="bg-primary-500 text-white px-4 py-2 rounded-[8px] hover:bg-primary-300 transition"
           >
             See posts
