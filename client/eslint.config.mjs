@@ -14,7 +14,6 @@ const config = {
   rules: {
     "prettier/prettier": ["error"],
     "no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
-    "no-console": "warn",
     eqeqeq: ["error", "always"],
     curly: ["error", "all"],
     "no-undef": "error",

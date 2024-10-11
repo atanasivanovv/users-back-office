@@ -1,52 +1,36 @@
-## Users Back Office
+# Users Back Office
 
-### Requirements
-Create a basic web application using the following technology stack:
+### Overview
 
-Technology - React with Typescript (https://create-react-app.dev/docs/addingtypescript/)
+The Users Back Office is a web application built with React and TypeScript, designed to manage and display users, their posts, and tasks. It utilizes the JSONPlaceholder API for data retrieval and showcases a user-friendly interface with editable fields and robust state management.
 
-State management - Redux and redux-toolkit
-(https://reduxtoolkit.js.org/introduction/getting-started)
+### Getting Started
 
-UI Library (optional) - e.g. Antd (https://ant.design/components/overview/)
+To run the application locally:
 
-Router - react-router (https://reactrouter.com/)
+1. Clone the repository.
+2. Install dependencies with `npm install`.
+3. Start the development server with `npm start`.
 
-Backend - JSONPlaceholder API (https://jsonplaceholder.typicode.com/guide/)
+Visit `http://localhost:3000` in your browser to access the application.
 
-### Users list
+### Features
 
-GET `https://jsonplaceholder.typicode.com/users`
+- **User Management**: Fetches and displays a list of users with collapsible sections. Users can edit their information, with validation on mandatory fields, and can submit or revert changes.
+- **Post Management**: Displays posts associated with a selected user, allowing editing and deletion with a confirmation prompt.
+- **Task Management**: Provides a dedicated route to view tasks in a paginated table format. Users can filter tasks by status, title, and owner, and change task statuses with persistence.
 
-GET `https://jsonplaceholder.typicode.com/users/:userId`
+### User Experience
 
-- Use the public JSONPlaceholder API to fetch and display 10 users on the home page of the application
-- Display the users as a vertical list of collapsible sections
-- Expanded users should be editable
-- Add input validation - username, email, address.street, address.suite, and address.city are mandatory
-- Implement cancel/revert and submit buttons (should only be active when changesare made)
-- Add a button ’See posts’ that redirects to a new page
+- **Error and Loading States**: The application covers empty, error, and loading states, enhancing the user experience.
+- **Simple and Aesthetic UI**: Aimed at creating a straightforward yet visually appealing interface.
+- **Unit Tests**: The application includes unit tests to ensure functionality and reliability.
 
-### User posts
+### Technologies Used
 
-GET `https://jsonplaceholder.typicode.com/posts?userId=X`
+- **React**: JavaScript library for building user interfaces.
+- **TypeScript**: Superset of JavaScript that adds static typing.
+- **Redux and Redux Toolkit**: State management library for predictable state management.
+- **React Router**: Library for handling routing within the application.
+- **JSONPlaceholder API**: Public API used for fetching user and post data.
 
-- Display the user details at the top of the page (information should be editable as
-on the home page)
-- Fetch and display a list of posts for the given user id
-- Posts should be editable and deletable through the JSONPlaceholder API - use a confirmation popup for the delete functionality
-
-### Tasks
-
-GET `https://jsonplaceholder.typicode.com/todos`
-
-- Create a separate /tasks route
-- Fetch and display a list of tasks - use HTML table with pagination of page size 10
-- Allow filtering by task status (completed or not completed), title and owner (user)
-- Implement functionality for changing the status of a task - changes should persist through searches
-
-### Notes
-
-- Cover empty, error and loading states
-- Aim for a simple but good-looking UI
-- Add unit tests
