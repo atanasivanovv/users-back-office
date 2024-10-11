@@ -66,7 +66,7 @@ const UserPosts: FC = () => {
           userId: parseInt(userId || ""),
           title: editingState.title,
           body: editingState.body,
-        })
+        }),
       );
       setEditingState((prev) => ({ ...prev, postId: null }));
     }

@@ -15,8 +15,8 @@ const config = {
     "prettier/prettier": ["error"],
     "no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
     "no-console": "warn",
-    "eqeqeq": ["error", "always"],
-    "curly": ["error", "all"],
+    eqeqeq: ["error", "always"],
+    curly: ["error", "all"],
     "no-undef": "error",
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
@@ -37,7 +37,11 @@ export default [
   pluginReact.configs.flat.recommended,
 
   {
-    files: ["**/*.test.{js,jsx,ts,tsx}", "**/__tests__/*.{js,jsx,ts,tsx}", 'src/tests/**'],
+    files: [
+      "**/*.test.{js,jsx,ts,tsx}",
+      "**/__tests__/*.{js,jsx,ts,tsx}",
+      "src/tests/**",
+    ],
     languageOptions: {
       globals: globals.jest, // Jest globals like `test`, `expect`
     },
