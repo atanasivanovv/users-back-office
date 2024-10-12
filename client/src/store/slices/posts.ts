@@ -1,5 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createSlice } from "@reduxjs/toolkit";
 import { Post } from "../../types";
 import api from "../../api";
 import {
@@ -7,6 +6,16 @@ import {
   defaultUpdateState,
   RequestStateWithUpdate,
 } from "../utils";
+import {
+  handleFetchCases,
+  handleUpdateCases,
+  handleDeleteCases,
+} from "../handlers";
+import {
+  createUpdateThunk,
+  createDeleteThunk,
+  createFetchByIdThunk,
+} from "../thunks";
 
 type PostsState = RequestStateWithUpdate<Post>;
 
@@ -17,79 +26,24 @@ const initialState: PostsState = {
   },
 };
 
-export const fetchUserPosts = createAsyncThunk(
+export const fetchUserPosts = createFetchByIdThunk<Post>(
   "posts/fetchUserPosts",
-  async (userId: number) => {
-    const response = await axios.get(`${api.posts}?userId=${userId}`);
-    return response.data;
-  },
+  (userId: number) => `${api.posts}?userId=${userId}`,
 );
-
-export const updatePost = createAsyncThunk(
+export const updatePost = createUpdateThunk<Post>(
   "posts/updatePost",
-  async (post: Post) => {
-    const response = await axios.put(`${api.posts}/${post.id}`, post);
-    return response.data;
-  },
+  api.posts,
 );
-
-export const deletePost = createAsyncThunk(
-  "posts/deletePost",
-  async (postId: number) => {
-    await axios.delete(`${api.posts}/${postId}`);
-    return postId;
-  },
-);
+export const deletePost = createDeleteThunk("posts/deletePost", api.posts);
 
 const postsSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder
-      .addCase(fetchUserPosts.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(
-        fetchUserPosts.fulfilled,
-        (state, action: PayloadAction<Post[]>) => {
-          state.status = "succeeded";
-          state.data = action.payload;
-        },
-      )
-      .addCase(fetchUserPosts.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message || "Failed to fetch posts";
-      })
-      .addCase(updatePost.pending, (state) => {
-        state.update.status = "loading";
-      })
-      .addCase(updatePost.fulfilled, (state, action: PayloadAction<Post>) => {
-        state.update.status = "succeeded";
-        const index = state.data.findIndex(
-          (post) => post.id === action.payload.id,
-        );
-        if (index !== -1) {
-          state.data[index] = action.payload;
-        }
-        state.update.error = null;
-      })
-      .addCase(updatePost.rejected, (state, action) => {
-        state.update.status = "failed";
-        state.update.error = action.error.message || "Failed to update post";
-      })
-      .addCase(deletePost.pending, (state) => {
-        state.update.status = "loading";
-      })
-      .addCase(deletePost.fulfilled, (state, action: PayloadAction<number>) => {
-        state.update.status = "succeeded";
-        state.data = state.data.filter((post) => post.id !== action.payload);
-        state.update.error = null;
-      })
-      .addCase(deletePost.rejected, (state, action) => {
-        state.update.status = "failed";
-        state.update.error = action.error.message || "Failed to delete post";
-      });
+    handleFetchCases(builder, fetchUserPosts);
+    handleUpdateCases(builder, updatePost);
+    handleDeleteCases(builder, deletePost);
   },
 });
 
