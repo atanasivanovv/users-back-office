@@ -9,7 +9,7 @@ export const createFetchAllThunk = <T>(type: string, url: string) =>
 
 export const createFetchByIdThunk = <T>(
   type: string,
-  getUrl: (id: number) => string,
+  getUrl: (_: number) => string,
 ) =>
   createAsyncThunk<T[], number>(type, async (id: number) => {
     const response = await axios.get<T[]>(getUrl(id));
@@ -27,7 +27,7 @@ export const createInsertThunk = <T extends { id: number }>(
 
 export const createUpdateByIdThunk = <T extends { id: number }>(
   type: string,
-  getUrl: (id: number) => string,
+  getUrl: (_: number) => string,
 ) =>
   createAsyncThunk<T, { id: number; payload: Partial<T> }>(
     type,

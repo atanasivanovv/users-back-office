@@ -89,7 +89,7 @@ const UserPosts: FC = () => {
   }
 
   if (!user) {
-    return <NoResultsPage emoji="🤔" resultsName="user" />;
+    return <NoResultsPage emoji="🤔" resultsName="user posts" />;
   }
 
   return (
