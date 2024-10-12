@@ -7,7 +7,6 @@ import {
   fetchTasks,
   updateTaskStatus,
   setCurrentPage,
-  applyFilters,
 } from "../../store/slices";
 import { Table, Select, Pagination } from "antd";
 import { Task } from "../../types";
@@ -18,9 +17,12 @@ const { Option } = Select;
 
 const TasksList: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { filteredTasks, status, filters, currentPage } = useSelector(
-    (state: RootState) => state.tasks,
-  );
+  const {
+    data: tasks,
+    status,
+    filters,
+    currentPage,
+  } = useSelector((state: RootState) => state.tasks);
   const { data: users } = useSelector((state: RootState) => state.users);
 
   useEffect(() => {
@@ -28,14 +30,31 @@ const TasksList: React.FC = () => {
     dispatch(fetchUsers());
   }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(applyFilters());
-  }, [dispatch, filters]);
-
   const handleStatusChange = async (taskId: number, completed: boolean) => {
-    await dispatch(updateTaskStatus({ id: taskId, completed }));
-    dispatch(applyFilters());
+    await dispatch(updateTaskStatus({ id: taskId, payload: { completed } }));
   };
+
+  // Decided to leave the filtering here for keeping the Redux Slices nice and clean
+  // In an ideal case we would have filtering on the backend though, not the client-side,
+  // so we will avoid this problem :)
+  const filteredTasks = useMemo(
+    () =>
+      tasks.filter((task) => {
+        const statusMatch =
+          filters.status === "all" ||
+          (filters.status === "completed" ? task.completed : !task.completed);
+
+        const titleMatch = task.title
+          .toLowerCase()
+          .includes(filters.title.toLowerCase());
+
+        const userMatch =
+          filters.userId === "all" || task.userId.toString() === filters.userId;
+
+        return statusMatch && titleMatch && userMatch;
+      }),
+    [tasks, filters],
+  );
 
   const columns = [
     {

@@ -16,7 +16,7 @@ export const createFetchByIdThunk = <T>(
     return response.data;
   });
 
-export const createUpdateThunk = <T extends { id: number }>(
+export const createInsertThunk = <T extends { id: number }>(
   type: string,
   url: string,
 ) =>
@@ -24,6 +24,18 @@ export const createUpdateThunk = <T extends { id: number }>(
     const response = await axios.put(`${url}/${item.id}`, item);
     return response.data;
   });
+
+export const createUpdateByIdThunk = <T extends { id: number }>(
+  type: string,
+  getUrl: (id: number) => string,
+) =>
+  createAsyncThunk<T, { id: number; payload: Partial<T> }>(
+    type,
+    async ({ id, payload }) => {
+      const response = await axios.patch<T>(getUrl(id), payload);
+      return response.data;
+    },
+  );
 
 export const createDeleteThunk = (type: string, url: string) =>
   createAsyncThunk<number, number>(type, async (id: number) => {

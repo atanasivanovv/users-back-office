@@ -1,10 +1,10 @@
 import { ActionReducerMapBuilder } from "@reduxjs/toolkit";
-import { RequestStateWithUpdate } from "./utils";
+import { RequestState } from "./utils";
 
 export const handleFetchCases = <T>(
-  builder: ActionReducerMapBuilder<RequestStateWithUpdate<T>>,
+  builder: ActionReducerMapBuilder<RequestState<T>>,
   thunk: any,
-  dataKey: keyof RequestStateWithUpdate<T> = "data",
+  dataKey: keyof RequestState<T> = "data",
 ) => {
   builder
     .addCase(thunk.pending, (state) => {
@@ -21,7 +21,7 @@ export const handleFetchCases = <T>(
 };
 
 export const handleUpdateCases = <T extends { id: number }>(
-  builder: ActionReducerMapBuilder<RequestStateWithUpdate<T>>,
+  builder: ActionReducerMapBuilder<RequestState<T>>,
   asyncThunk: any,
 ) => {
   builder
@@ -45,7 +45,7 @@ export const handleUpdateCases = <T extends { id: number }>(
 };
 
 export const handleDeleteCases = <T extends { id: number }>(
-  builder: ActionReducerMapBuilder<RequestStateWithUpdate<T>>,
+  builder: ActionReducerMapBuilder<RequestState<T>>,
   asyncThunk: any,
 ) => {
   builder

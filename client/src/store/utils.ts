@@ -9,18 +9,15 @@ export type RequestState<T> = {
   data: T[];
   status: RequestStatus;
   error: string | null;
-};
-
-export type RequestStateWithUpdate<T> = RequestState<T> & {
   update: UpdateStatus;
 };
 
-export const defaultUpdateState: UpdateStatus = {
+export const defaultState: RequestState<any> = {
+  data: [],
   status: "idle",
   error: null,
-};
-
-export const defaultState = {
-  data: [],
-  ...defaultUpdateState,
+  update: {
+    status: "idle",
+    error: null,
+  },
 };

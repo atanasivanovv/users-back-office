@@ -1,24 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { User } from "../../types";
 import api from "../../api";
-import {
-  defaultState,
-  defaultUpdateState,
-  RequestStateWithUpdate,
-} from "../utils";
+import { defaultState, RequestState } from "../utils";
 import { handleFetchCases, handleUpdateCases } from "../handlers";
-import { createFetchAllThunk, createUpdateThunk } from "../thunks";
+import { createFetchAllThunk, createInsertThunk } from "../thunks";
 
-interface UsersState extends RequestStateWithUpdate<User> {
+interface UsersState extends RequestState<User> {
   editingUser: User | null;
 }
 
 const initialState: UsersState = {
   ...defaultState,
   editingUser: null,
-  update: {
-    ...defaultUpdateState,
-  },
 };
 
 export const fetchUsers = createFetchAllThunk<User>(
@@ -26,7 +19,7 @@ export const fetchUsers = createFetchAllThunk<User>(
   api.users,
 );
 
-export const updateUser = createUpdateThunk<User>(
+export const updateUser = createInsertThunk<User>(
   "users/updateUser",
   api.users,
 );

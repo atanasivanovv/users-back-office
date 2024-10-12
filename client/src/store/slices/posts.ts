@@ -1,36 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Post } from "../../types";
 import api from "../../api";
-import {
-  defaultState,
-  defaultUpdateState,
-  RequestStateWithUpdate,
-} from "../utils";
+import { defaultState, RequestState } from "../utils";
 import {
   handleFetchCases,
   handleUpdateCases,
   handleDeleteCases,
 } from "../handlers";
 import {
-  createUpdateThunk,
+  createInsertThunk,
   createDeleteThunk,
   createFetchByIdThunk,
 } from "../thunks";
 
-type PostsState = RequestStateWithUpdate<Post>;
+type PostsState = RequestState<Post>;
 
-const initialState: PostsState = {
-  ...defaultState,
-  update: {
-    ...defaultUpdateState,
-  },
-};
+const initialState: PostsState = defaultState;
 
 export const fetchUserPosts = createFetchByIdThunk<Post>(
   "posts/fetchUserPosts",
   (userId: number) => `${api.posts}?userId=${userId}`,
 );
-export const updatePost = createUpdateThunk<Post>(
+export const updatePost = createInsertThunk<Post>(
   "posts/updatePost",
   api.posts,
 );
