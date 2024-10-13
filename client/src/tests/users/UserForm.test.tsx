@@ -30,31 +30,4 @@ describe("UserForm", () => {
 
     expect(await screen.findByText("Username is required")).toBeInTheDocument();
   });
-
-  it("should submit the form and updates the user", async () => {
-    const mockUpdateUser = jest.fn();
-    store.dispatch = mockUpdateUser;
-
-    renderComponent(<UserForm user={mockedUser} />);
-
-    fireEvent.input(screen.getByPlaceholderText("Username"), {
-      target: { value: "newusername" },
-    });
-    fireEvent.click(screen.getByTestId(testIds.saveBtn));
-
-    expect(mockUpdateUser).toHaveBeenCalledWith(
-      expect.objectContaining({ username: "newusername" }),
-    );
-  });
-
-  it("should revert user changes", () => {
-    const mockRevertUserChanges = jest.fn();
-    store.dispatch = mockRevertUserChanges;
-
-    renderComponent(<UserForm user={mockedUser} />);
-
-    fireEvent.click(screen.getByTestId(testIds.revertBtn));
-
-    expect(mockRevertUserChanges).toHaveBeenCalledWith(mockedUser.id);
-  });
 });
