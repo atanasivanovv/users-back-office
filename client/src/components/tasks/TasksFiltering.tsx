@@ -6,6 +6,12 @@ import { TaskFilters } from "../../types";
 
 const { Option } = Select;
 
+const testIds = {
+  titleFilter: "title-filter",
+  statusFilter: "status-filter",
+  userFilter: "user-filter",
+};
+
 export const TasksFiltering = ({ filters }: { filters: TaskFilters }) => {
   const { data: users } = useSelector((state: RootState) => state.users);
 
@@ -21,12 +27,14 @@ export const TasksFiltering = ({ filters }: { filters: TaskFilters }) => {
         placeholder="Filter by title"
         value={filters.title}
         onChange={(e) => handleFilterChange("title", e.target.value)}
-        className="w-full mt-2 md:mt-0  md:w-64 mr-2 h-10"
+        className="w-full mt-2 md:mt-0 md:w-64 mr-2 h-10"
+        data-testid={testIds.titleFilter}
       />
       <Select
         value={filters.status}
         onChange={(value) => handleFilterChange("status", value)}
         className="w-full mt-2 md:mt-0 md:w-64 mr-2 h-10"
+        data-testid={testIds.statusFilter}
       >
         <Option value="all">All</Option>
         <Option value="completed">Completed</Option>
@@ -36,6 +44,7 @@ export const TasksFiltering = ({ filters }: { filters: TaskFilters }) => {
         value={filters.userId}
         onChange={(value) => handleFilterChange("userId", value)}
         className="w-full mt-2 md:mt-0 md:w-64 mr-2 h-10"
+        data-testid={testIds.userFilter}
       >
         <Option value="all">All Users</Option>
         {users.map((user) => (
