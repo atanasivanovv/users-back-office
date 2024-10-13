@@ -1,7 +1,7 @@
 import { waitFor } from "@testing-library/dom";
 
 const skeletonSelector = "span.react-loading-skeleton";
-const getAllSkeletons = () =>
+export const getAllSkeletons = () =>
   Array.from(document.querySelectorAll(skeletonSelector));
 
 export const waitForSkeletonsToHide = async () => {

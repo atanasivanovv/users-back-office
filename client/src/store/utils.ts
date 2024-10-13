@@ -12,7 +12,7 @@ export type RequestState<T> = {
   update: UpdateStatus;
 };
 
-export const defaultState: RequestState<any> = {
+export const defaultState: RequestState<never> = {
   data: [],
   status: "idle",
   error: null,
